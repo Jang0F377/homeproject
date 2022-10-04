@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { HomeProject } from "../../../typings";
+import { MATT_URL, myHeaders } from "../../app/constants";
 import AddNewProjectItem from "../../components/AddNewProjectItem";
 import Container from "../../components/Container";
 import DashboardHeader from "../../components/DashboardHeader";
@@ -16,6 +17,33 @@ function Matt() {
 	const handleClose = () => {
 		setAddingNew(false);
 	};
+
+	async function fetchMatt() {
+		setLoading(true);
+		await fetch(MATT_URL, {
+			method: "GET",
+			headers: myHeaders,
+		})
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
+				} else {
+					return null;
+				}
+			})
+			.then((res) => {
+				setProjects(res);
+			})
+			.then(() => setLoading(false))
+			.catch((e) => console.log(e));
+	}
+
+	useEffect(() => {
+		fetchMatt().catch((e) => {
+			alert(e);
+			setError(true);
+		});
+	}, []);
 
 	if (loading) {
 		return <Loading />;
@@ -54,7 +82,11 @@ function Matt() {
 							<AddNewProjectItem route={"matt"} handleClose={handleClose} />
 						) : null}
 						{projects?.map((proj) => (
-							<PriorityListItem project={proj} key={proj._id} />
+							<PriorityListItem
+								project={proj}
+								key={proj._id}
+								whoseRoute={"matt"}
+							/>
 						))}
 					</section>
 				</Container>

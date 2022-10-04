@@ -2,38 +2,69 @@ import { BoltIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import { FC, useState } from "react";
 import { HomeProject } from "../../typings";
+import { MATT_URL, myHeaders, PROJECT_URL, SARAH_URL } from "../app/constants";
 
 interface PriorityListItemProps {
 	project: HomeProject;
+	whoseRoute: string;
 }
 
-const PriorityListItem: FC<PriorityListItemProps> = ({ project }) => {
+const PriorityListItem: FC<PriorityListItemProps> = ({
+	project,
+	whoseRoute,
+}) => {
 	const router = useRouter();
 	const [editing, setEditing] = useState(false);
 	const [newPriority, setNewPriority] = useState("");
+	let [url, setUrl] = useState(
+		whoseRoute === "sarah"
+			? SARAH_URL
+			: whoseRoute === "matt"
+			? MATT_URL
+			: whoseRoute === "project"
+			? PROJECT_URL
+			: ""
+	);
 
 	const handleEdit = () => {
 		setEditing(!editing);
 	};
 
 	const handleChangePriority = async () => {
-		await fetch("/api/changePriority", {
-			method: "POST",
-			body: JSON.stringify({
-				id: project._id,
-				newPriority: Number(newPriority),
-			}),
-		})
-			.then((res) => {
-				if (res.ok) {
-					setTimeout(() => {
-						router.reload();
-					}, 550);
-				}
+		if (Number(newPriority) === 0) {
+			await fetch(url + project._id, {
+				method: "DELETE",
+				headers: myHeaders,
 			})
-			.catch((err) => {
-				alert(err);
-			});
+				.then((res) => {
+					if (res.ok) {
+						setTimeout(() => {
+							router.reload();
+						}, 250);
+					}
+				})
+				.catch((err) => {
+					alert(err);
+				});
+		} else {
+			await fetch(url + project._id, {
+				method: "PATCH",
+				headers: myHeaders,
+				body: JSON.stringify({
+					priority: Number(newPriority),
+				}),
+			})
+				.then((res) => {
+					if (res.ok) {
+						setTimeout(() => {
+							router.reload();
+						}, 250);
+					}
+				})
+				.catch((err) => {
+					alert(err);
+				});
+		}
 	};
 
 	return (

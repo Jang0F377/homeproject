@@ -1,22 +1,22 @@
 export interface Expenses {
-	_id: string;
-	_rev: string;
-	_type: string;
-	_updatedAt: string;
 	expenses: Array<Expense>;
 }
 
 export interface Expense {
-	_key: string;
+	_id: string;
 	cost: number;
 	dayCharged: number;
-	payableTo: string;
+	name: string;
 }
 
 export interface HomeProject {
 	_id: string;
-	_rev: string;
-	_type: string;
 	name: string;
 	priority: number;
+}
+
+export interface User {
+	username: string;
+	password: string;
+	name: string | (() => string);
 }

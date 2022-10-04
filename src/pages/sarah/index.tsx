@@ -6,6 +6,7 @@ import Loading from "../../components/Loading";
 import PageNotFound from "../../components/PageNotFound";
 import PriorityListItem from "../../components/PriorityListItem";
 import AddNewProjectItem from "../../components/AddNewProjectItem";
+import { myHeaders, SARAH_URL } from "../../app/constants";
 
 function Sarah() {
 	const [projects, setProjects] = useState<Array<HomeProject>>();
@@ -16,6 +17,37 @@ function Sarah() {
 	const handleClose = () => {
 		setAddingNew(false);
 	};
+
+	async function fetchSarah() {
+		setLoading(true);
+		await fetch(SARAH_URL, {
+			method: "GET",
+			headers: myHeaders,
+		})
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
+				} else {
+					return null;
+				}
+			})
+			.then((res) => {
+				setProjects(res);
+			})
+			.then(() => setLoading(false))
+			.catch((err) => {
+				setError(true);
+				setLoading(false);
+				console.log(err);
+			});
+	}
+
+	useEffect(() => {
+		fetchSarah().catch((e) => {
+			alert(e);
+			setError(true);
+		});
+	}, []);
 
 	if (loading) {
 		return <Loading />;
@@ -54,7 +86,11 @@ function Sarah() {
 						) : null}
 
 						{projects?.map((proj) => (
-							<PriorityListItem project={proj} key={proj._id} />
+							<PriorityListItem
+								project={proj}
+								key={proj._id}
+								whoseRoute={"sarah"}
+							/>
 						))}
 					</section>
 				</Container>

@@ -3,6 +3,7 @@ import clsx from "clsx";
 import Link from "next/link";
 import { Popover, Transition } from "@headlessui/react";
 import { Fragment } from "react";
+import { useRouter } from "next/router";
 
 function MobileNavLink({ href, children }: any) {
 	return (
@@ -99,6 +100,7 @@ function MobileNavigation() {
 }
 
 const Header = () => {
+	const router = useRouter();
 	return (
 		<header className="bg-cyber-grape-50 py-4">
 			<Container className="">
@@ -116,6 +118,7 @@ const Header = () => {
 						<div className=" flex items-center  ">
 							<button
 								type="button"
+								onClick={() => router.push("login")}
 								className="inline-block rounded-md border border-transparent bg-cyber-grape-600 py-2 px-4 text-base font-medium text-white hover:border-white hover:bg-cyber-grape-700 hover:text-cyber-grape-50"
 							>
 								Login

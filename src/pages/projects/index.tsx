@@ -6,6 +6,7 @@ import Loading from "../../components/Loading";
 import PageNotFound from "../../components/PageNotFound";
 import PriorityListItem from "../../components/PriorityListItem";
 import AddNewProjectItem from "../../components/AddNewProjectItem";
+import { myHeaders, PROJECT_URL } from "../../app/constants";
 
 function Projects() {
 	const [projects, setProjects] = useState<Array<HomeProject>>();
@@ -16,6 +17,33 @@ function Projects() {
 	const handleClose = () => {
 		setAddingNew(false);
 	};
+
+	async function fetchProjects() {
+		setLoading(true);
+		await fetch(PROJECT_URL, {
+			method: "GET",
+			headers: myHeaders,
+		})
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
+				} else {
+					return null;
+				}
+			})
+			.then((res) => {
+				setProjects(res);
+			})
+			.then(() => setLoading(false))
+			.catch((err) => {
+				console.log(err);
+				setError(true);
+			});
+	}
+
+	useEffect(() => {
+		fetchProjects().catch((e) => alert(e));
+	}, []);
 
 	if (loading) {
 		return <Loading />;
@@ -51,10 +79,14 @@ function Projects() {
 					) : null}
 					<section className=" w-full rounded-lg bg-cyber-grape-50 ">
 						{addingNew ? (
-							<AddNewProjectItem route={"projects"} handleClose={handleClose} />
+							<AddNewProjectItem route={"project"} handleClose={handleClose} />
 						) : null}
 						{projects?.map((proj) => (
-							<PriorityListItem key={proj._id} project={proj} />
+							<PriorityListItem
+								key={proj._id}
+								project={proj}
+								whoseRoute={"project"}
+							/>
 						))}
 					</section>
 				</Container>

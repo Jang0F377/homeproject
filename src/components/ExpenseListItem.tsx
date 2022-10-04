@@ -10,7 +10,7 @@ const ExpenseListItem: FC<ExpenseListItemProps> = ({ expense }) => {
 		<div className="grid w-full grid-flow-col grid-cols-3 p-3 ">
 			<div className="col-span-2 flex flex-col">
 				<h1 className="text-xs font-medium text-cyber-grape-700">Pay to:</h1>
-				<p className="font-medium text-cyber-grape-600">{expense.payableTo}</p>
+				<p className="font-medium text-cyber-grape-600">{expense.name}</p>
 			</div>
 			<div className="col-span flex flex-col">
 				<h1 className="text-xs font-medium text-cyber-grape-700">Cost:</h1>

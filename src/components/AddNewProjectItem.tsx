@@ -1,6 +1,7 @@
 import { BoltIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
+import { SARAH_URL, MATT_URL, PROJECT_URL, myHeaders } from "../app/constants";
 
 interface AddNewProjectItemProps {
 	handleClose: () => void;
@@ -14,24 +15,38 @@ const AddNewProjectItem: FC<AddNewProjectItemProps> = ({
 	const router = useRouter();
 	const [newProjectName, setNewProjectName] = useState<string>("");
 	const [newProjectPriority, setNewProjectPriority] = useState<string>("");
-	const [showModal, setShowModal] = useState(false);
-
-	const handleShowModal = () => {
-		setShowModal(true);
-	};
+	const [errorMessage, setErrorMessage] = useState("");
+	let [url, setUrl] = useState(
+		route === "sarah"
+			? SARAH_URL
+			: route === "matt"
+			? MATT_URL
+			: route === "project"
+			? PROJECT_URL
+			: ""
+	);
 
 	const resetState = () => {
 		console.log("reseting state");
+		setErrorMessage("");
 		setNewProjectName("");
 		setNewProjectPriority("");
-		setShowModal(false);
 	};
 
 	const handleAddNewProject = async () => {
-		await fetch("/api/addNewProject", {
+		if (
+			+newProjectPriority > 100 ||
+			+newProjectPriority < 1 ||
+			!newProjectName
+		) {
+			setErrorMessage("Name cannont be empty & priority must be > 0 & < 100");
+			return;
+		}
+
+		await fetch(url, {
 			method: "POST",
+			headers: myHeaders,
 			body: JSON.stringify({
-				type: route,
 				name: newProjectName,
 				priority: Number(newProjectPriority),
 			}),
@@ -40,7 +55,13 @@ const AddNewProjectItem: FC<AddNewProjectItemProps> = ({
 				if (res.ok) {
 					setTimeout(() => {
 						router.reload();
-					}, 550);
+					}, 250);
+				} else {
+					return res
+						.json()
+						.then((res) => setErrorMessage(JSON.stringify(res, null, 2)))
+						.then(() => alert(errorMessage))
+						.then(() => router.reload());
 				}
 			})
 			.catch((e) => alert(e));
@@ -49,8 +70,14 @@ const AddNewProjectItem: FC<AddNewProjectItemProps> = ({
 	return (
 		<div className="m-1 flex flex-row   justify-between border-b border-cyber-grape-700 py-3">
 			<div className="flex flex-col">
+				{errorMessage ? (
+					<div className="flex">
+						<p className="text-xs font-medium text-red-600">{errorMessage}</p>
+					</div>
+				) : null}
 				<h1 className="text-xs font-medium text-cyber-grape-700">Name:</h1>
 				<input
+					autoFocus
 					value={newProjectName}
 					onChange={(e) => setNewProjectName(e.target.value)}
 					className="flex rounded bg-white p-1 ring-1 ring-cyber-grape-600 focus:outline focus:outline-offset-2 focus:outline-cyber-grape-600 focus:ring-0"
