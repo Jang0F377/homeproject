@@ -13,15 +13,18 @@ import { RadioGroup } from "@headlessui/react";
 import {
 	ArrowDownLeftIcon,
 	ArrowDownRightIcon,
+	CheckCircleIcon,
 	ChevronDoubleDownIcon,
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import Container from "../../components/Container";
 import ExpenseListItem from "../../components/ExpenseListItem";
 import AddNewExpenseItem from "../../components/AddNewExpenseItem";
+import { useRouter } from "next/router";
 
 function Dashboard() {
 	let authed;
+	const router = useRouter();
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const date = new Date().toDateString();
@@ -36,6 +39,7 @@ function Dashboard() {
 	const [exp, setExp] = useState<Array<Expense>>();
 	const [addingNew, setAddingNew] = useState(false);
 	const [editing, setEditing] = useState(false);
+	const [showIcon, setShowIcon] = useState(false);
 
 	const handleClose = () => {
 		setAddingNew(false);
@@ -127,10 +131,20 @@ function Dashboard() {
 											</button>
 										</div>
 									) : (
-										<div className="my-2 flex ">
+										<div className="my-2 flex items-center space-x-1">
+											{showIcon ? (
+												<CheckCircleIcon
+													className={clsx(
+														"h-9 w-9 animate-spin text-green-600 "
+													)}
+												/>
+											) : null}
 											<button
-												onClick={() => setEditing(false)}
-												className=" inline-block rounded-lg bg-cyber-grape-500 px-3 py-1 text-cyber-grape-50 ring-1 ring-cyber-grape-700 hover:bg-cyber-grape-700 hover:text-white focus:outline focus:outline-offset-2 focus:outline-cyber-grape-600"
+												onClick={() => {
+													setShowIcon(true);
+													setTimeout(() => router.reload(), 500);
+												}}
+												className="inline-block rounded-lg bg-cyber-grape-500 px-3 py-1 text-cyber-grape-50 ring-1 ring-cyber-grape-700 hover:bg-cyber-grape-700 hover:text-white focus:outline focus:outline-offset-2 focus:outline-cyber-grape-600"
 											>
 												Done
 											</button>

@@ -19,15 +19,18 @@ const AddNewExpenseItem: FC<AddNewExpenseItemProps> = ({ handleClose }) => {
 	const [newExpenseCost, setNewExpenseCost] = useState<string>("");
 	const [newExpenseDay, setNewExpenseDay] = useState<string>("");
 	const [errorMessage, setErrorMessage] = useState("");
+	const [posting, setPosting] = useState(false);
 
 	const resetState = () => {
 		console.log("reseting state");
 		setErrorMessage("");
 		setNewExpenseName("");
 		setNewExpenseDay("");
+		setPosting(false);
 	};
 
 	const handleAddNewProject = async () => {
+		setPosting(true);
 		await fetch(EXPENSE_URL, {
 			method: "POST",
 			headers: myHeaders,
@@ -41,12 +44,13 @@ const AddNewExpenseItem: FC<AddNewExpenseItemProps> = ({ handleClose }) => {
 				if (res.ok) {
 					setTimeout(() => {
 						router.reload();
-					}, 250);
+					}, 350);
 				} else {
 					return res
 						.json()
 						.then((res) => setErrorMessage(JSON.stringify(res, null, 2)))
 						.then(() => alert(errorMessage))
+						.then(() => setPosting(false))
 						.then(() => router.reload());
 				}
 			})

@@ -1,4 +1,5 @@
 import { BoltIcon, TrashIcon } from "@heroicons/react/24/outline";
+import clsx from "clsx";
 import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 import { SARAH_URL, MATT_URL, PROJECT_URL, myHeaders } from "../app/constants";
@@ -16,6 +17,7 @@ const AddNewProjectItem: FC<AddNewProjectItemProps> = ({
 	const [newProjectName, setNewProjectName] = useState<string>("");
 	const [newProjectPriority, setNewProjectPriority] = useState<string>("");
 	const [errorMessage, setErrorMessage] = useState("");
+	const [posting, setPosting] = useState(false);
 	let [url, setUrl] = useState(
 		route === "sarah"
 			? SARAH_URL
@@ -31,15 +33,18 @@ const AddNewProjectItem: FC<AddNewProjectItemProps> = ({
 		setErrorMessage("");
 		setNewProjectName("");
 		setNewProjectPriority("");
+		setPosting(false);
 	};
 
 	const handleAddNewProject = async () => {
+		setPosting(true);
 		if (
 			+newProjectPriority > 100 ||
 			+newProjectPriority < 1 ||
 			!newProjectName
 		) {
-			setErrorMessage("Name cannont be empty & priority must be > 0 & < 100");
+			setErrorMessage("Name cannot be empty & priority must be > 0 & < 100");
+			setPosting(false);
 			return;
 		}
 
@@ -55,7 +60,7 @@ const AddNewProjectItem: FC<AddNewProjectItemProps> = ({
 				if (res.ok) {
 					setTimeout(() => {
 						router.reload();
-					}, 250);
+					}, 350);
 				} else {
 					return res
 						.json()
@@ -96,7 +101,10 @@ const AddNewProjectItem: FC<AddNewProjectItemProps> = ({
 				{newProjectName && newProjectPriority && (
 					<BoltIcon
 						onClick={handleAddNewProject}
-						className="h-7 w-6 cursor-pointer hover:fill-green-600 hover:text-green-800"
+						className={clsx(
+							"h-7 w-6 cursor-pointer hover:fill-green-600 hover:text-green-800",
+							posting ? "animate-spin" : "animate-none"
+						)}
 					/>
 				)}
 				<TrashIcon
