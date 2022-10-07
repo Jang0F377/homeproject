@@ -5,9 +5,10 @@ const nestHeaders = {
 
 export const myHeaders = new Headers(nestHeaders);
 
-// DO IP my-home-project.us/
-export const EXPENSE_URL = "https://my-home-project.us/expenses/";
-export const PROJECT_URL = "https://my-home-project.us/projects/";
-export const SARAH_URL = "https://my-home-project.us/sarah/";
-export const MATT_URL = "https://my-home-project.us/matt/";
-export const LOGIN_URL = "https://my-home-project.us/login/";
+// IP https://my-home-project.us/
+// http://localhost:3000/
+export const EXPENSE_URL = "http://localhost:3000/expenses/";
+export const PROJECT_URL = "http://localhost:3000/projects/";
+export const SARAH_URL = "http://localhost:3000/sarah/";
+export const MATT_URL = "http://localhost:3000/matt/";
+export const LOGIN_URL = "http://localhost:3000/login/";

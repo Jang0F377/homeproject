@@ -35,6 +35,7 @@ function Dashboard() {
 	const [perPeriodExp, setPerPeriodExp] = useState<any>(0);
 	const [exp, setExp] = useState<Array<Expense>>();
 	const [addingNew, setAddingNew] = useState(false);
+	const [editing, setEditing] = useState(false);
 
 	const handleClose = () => {
 		setAddingNew(false);
@@ -105,16 +106,37 @@ function Dashboard() {
 					<main className="mx-auto -mt-32 max-w-7xl space-y-3 rounded bg-cyber-grape-100 pb-3 pt-0.5">
 						<Container className="max-w-xl">
 							<div className="flex flex-row items-center justify-between">
-								{!addingNew ? (
-									<div className="my-2 flex justify-end">
-										<button
-											onClick={() => setAddingNew(true)}
-											className="block rounded-lg bg-cyber-grape-500 px-2 py-1 text-cyber-grape-50 ring-1 ring-cyber-grape-700 hover:bg-cyber-grape-700 hover:text-white focus:outline focus:outline-offset-2 focus:outline-cyber-grape-600"
-										>
-											Add New
-										</button>
-									</div>
-								) : null}{" "}
+								<div className="flex flex-row space-x-3">
+									{!addingNew ? (
+										<div className="my-2 flex">
+											<button
+												onClick={() => setAddingNew(true)}
+												className="inline-block rounded-lg bg-cyber-grape-500 px-2 py-1 text-cyber-grape-50 ring-1 ring-cyber-grape-700 hover:bg-cyber-grape-700 hover:text-white focus:outline focus:outline-offset-2 focus:outline-cyber-grape-600"
+											>
+												Add New
+											</button>
+										</div>
+									) : null}
+									{!editing ? (
+										<div className="my-2 flex ">
+											<button
+												onClick={() => setEditing(true)}
+												className=" inline-block rounded-lg bg-cyber-grape-500 px-3 py-1 text-cyber-grape-50 ring-1 ring-cyber-grape-700 hover:bg-cyber-grape-700 hover:text-white focus:outline focus:outline-offset-2 focus:outline-cyber-grape-600"
+											>
+												Edit
+											</button>
+										</div>
+									) : (
+										<div className="my-2 flex ">
+											<button
+												onClick={() => setEditing(false)}
+												className=" inline-block rounded-lg bg-cyber-grape-500 px-3 py-1 text-cyber-grape-50 ring-1 ring-cyber-grape-700 hover:bg-cyber-grape-700 hover:text-white focus:outline focus:outline-offset-2 focus:outline-cyber-grape-600"
+											>
+												Done
+											</button>
+										</div>
+									)}
+								</div>
 								<div className="font-medium">
 									<p className="text-[0.65rem]">Today&apos;s Date:</p>
 									<p className="text-sm font-medium">{date}</p>
@@ -126,7 +148,11 @@ function Dashboard() {
 									<AddNewExpenseItem handleClose={handleClose} />
 								) : null}
 								{exp?.map((expense) => (
-									<ExpenseListItem key={expense?._id} expense={expense} />
+									<ExpenseListItem
+										key={expense?._id}
+										expense={expense}
+										editing={editing}
+									/>
 								))}
 							</section>
 							<section className="py-10">
