@@ -4,7 +4,7 @@ import Container from "../../components/Container";
 import DashboardHeader from "../../components/DashboardHeader";
 import Loading from "../../components/Loading";
 import PageNotFound from "../../components/PageNotFound";
-import PriorityListItem from "../../components/PriorityListItem";
+import ProjectListItem from "../../components/ProjectListItem";
 import AddNewProjectItem from "../../components/AddNewProjectItem";
 import { myHeaders, SARAH_URL } from "../../app/constants";
 
@@ -86,7 +86,7 @@ function Sarah() {
 						) : null}
 
 						{projects?.map((proj) => (
-							<PriorityListItem
+							<ProjectListItem
 								project={proj}
 								key={proj._id}
 								whoseRoute={"sarah"}

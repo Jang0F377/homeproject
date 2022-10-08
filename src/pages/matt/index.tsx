@@ -6,7 +6,7 @@ import Container from "../../components/Container";
 import DashboardHeader from "../../components/DashboardHeader";
 import Loading from "../../components/Loading";
 import PageNotFound from "../../components/PageNotFound";
-import PriorityListItem from "../../components/PriorityListItem";
+import ProjectListItem from "../../components/ProjectListItem";
 
 function Matt() {
 	const [projects, setProjects] = useState<Array<HomeProject>>();
@@ -81,13 +81,15 @@ function Matt() {
 						{addingNew ? (
 							<AddNewProjectItem route={"matt"} handleClose={handleClose} />
 						) : null}
-						{projects?.map((proj) => (
-							<PriorityListItem
-								project={proj}
-								key={proj._id}
-								whoseRoute={"matt"}
-							/>
-						))}
+						<dl className="mt-6 space-y-2">
+							{projects?.map((proj) => (
+								<ProjectListItem
+									project={proj}
+									key={proj._id}
+									whoseRoute={"matt"}
+								/>
+							))}
+						</dl>
 					</section>
 				</Container>
 			</main>

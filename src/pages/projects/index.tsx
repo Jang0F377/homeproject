@@ -4,7 +4,7 @@ import DashboardHeader from "../../components/DashboardHeader";
 import { HomeProject } from "../../../typings";
 import Loading from "../../components/Loading";
 import PageNotFound from "../../components/PageNotFound";
-import PriorityListItem from "../../components/PriorityListItem";
+import ProjectListItem from "../../components/ProjectListItem";
 import AddNewProjectItem from "../../components/AddNewProjectItem";
 import { myHeaders, PROJECT_URL } from "../../app/constants";
 
@@ -82,7 +82,7 @@ function Projects() {
 							<AddNewProjectItem route={"project"} handleClose={handleClose} />
 						) : null}
 						{projects?.map((proj) => (
-							<PriorityListItem
+							<ProjectListItem
 								key={proj._id}
 								project={proj}
 								whoseRoute={"project"}

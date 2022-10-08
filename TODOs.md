@@ -6,6 +6,6 @@
 - - 2. Thermometer type scale showing how much we've saved toward that total cost.
 
 - Be able to edit Expenses, Projects, etc.
-- - name/cost/date any properties, not just priority
+- - ~~name/cost/date any properties, not just priority~~
 
 -

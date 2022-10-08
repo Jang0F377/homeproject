@@ -13,6 +13,10 @@ export interface HomeProject {
 	_id: string;
 	name: string;
 	priority: number;
+	details: {
+		cost?: number;
+		savedTowardCost?: number;
+	};
 }
 
 export interface User {
