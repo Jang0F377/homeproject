@@ -73,7 +73,7 @@ const AddNewProjectItem: FC<AddNewProjectItemProps> = ({
 	};
 
 	return (
-		<div className="m-1 flex flex-row   justify-between border-b border-cyber-grape-700 py-3">
+		<div className="m-1 flex flex-col items-center justify-between space-y-1 border-b border-cyber-grape-700 py-3 md:flex-row md:space-y-0 ">
 			<div className="flex flex-col">
 				{errorMessage ? (
 					<div className="flex">
@@ -97,7 +97,7 @@ const AddNewProjectItem: FC<AddNewProjectItemProps> = ({
 					className="flex w-12 rounded bg-white p-1 ring-1 ring-cyber-grape-600 focus:outline focus:outline-offset-1 focus:outline-cyber-grape-600 focus:ring-0"
 				/>
 			</div>
-			<div className="my-auto flex flex-row space-x-1.5">
+			<div className="my-auto mx-auto flex flex-row space-x-1.5 md:mx-0">
 				{newProjectName && newProjectPriority && (
 					<BoltIcon
 						onClick={handleAddNewProject}

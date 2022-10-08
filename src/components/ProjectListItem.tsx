@@ -10,6 +10,7 @@ import { FC, useState } from "react";
 import { HomeProject } from "../../typings";
 import { MATT_URL, myHeaders, PROJECT_URL, SARAH_URL } from "../app/constants";
 import ProjectItemPanel from "./ProjectItemPanel";
+import SavedTowardProjectTracker from "./SavedTowardProjectTracker";
 
 interface ProjectListItemProps {
 	project: HomeProject;
@@ -145,8 +146,9 @@ const ProjectListItem: FC<ProjectListItemProps> = ({ project, whoseRoute }) => {
 							</span>
 						</Disclosure.Button>
 					</div>
-					<Disclosure.Panel as="dd" className="mt-2 flex">
-						<ProjectItemPanel project={project} url={url} />
+					<Disclosure.Panel as="dd" className="mt-2 flex flex-col">
+						<ProjectItemPanel project={project} url={url} router={router} />
+						<SavedTowardProjectTracker project={project} />
 					</Disclosure.Panel>
 				</div>
 			)}
