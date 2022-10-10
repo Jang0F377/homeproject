@@ -8,7 +8,6 @@ const Login: FC = () => {
 	const router = useRouter();
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
-	const [secret, setSecret] = useState("");
 	const [response, setResponse] = useState("");
 	const dispatch = useAppDispatch();
 
@@ -19,7 +18,6 @@ const Login: FC = () => {
 			body: JSON.stringify({
 				username: `${username}`,
 				password: `${password}`,
-				secretPhase: `${secret}`,
 			}),
 		})
 			.then((res) => {
@@ -28,15 +26,6 @@ const Login: FC = () => {
 						loginUser({
 							username: username,
 							password: password,
-							name: username.slice(0, 3),
-						})
-					);
-					localStorage.setItem(
-						"user",
-						JSON.stringify({
-							username: username,
-							password: password,
-							name: username.slice(0, 3),
 						})
 					);
 					localStorage.setItem("isAuthenticated", "true");
@@ -50,7 +39,6 @@ const Login: FC = () => {
 	const resetFields = () => {
 		setUsername("");
 		setPassword("");
-		setSecret("");
 		setResponse("");
 	};
 
@@ -116,20 +104,6 @@ const Login: FC = () => {
 										value={password}
 										onChange={(e) => setPassword(e.target.value)}
 										autoComplete="current-password"
-										required
-										className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-									/>
-								</div>
-							</div>
-							<div>
-								<label className="block text-sm font-medium text-gray-700">
-									Secret
-								</label>
-								<div className="mt-1">
-									<input
-										type="password"
-										value={secret}
-										onChange={(e) => setSecret(e.target.value)}
 										required
 										className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
 									/>
